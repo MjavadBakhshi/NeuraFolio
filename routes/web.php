@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\Portfolio\PortfolioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,5 +24,19 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+// Protected routes
+Route::middleware('auth:web')
+->prefix('user/')
+->name('user.')
+->group(function(){
+
+    // Portfolio
+    Route::post('/portfolio', [PortfolioController::class, 'store'])
+        ->name('portfolio.store');
+});
+
 
 require __DIR__.'/auth.php';
